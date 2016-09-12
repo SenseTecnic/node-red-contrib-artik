@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    RED.nodes.registerType('artik',{
+        category: 'IoT',
+        color: '#FFFFFF',
+        defaults: {
+            name: {value:""}
+        },
+        icon: "artik.png",
+        inputs:1,
+        outputs:1,
+        label: function() {
+            return this.name||"artik";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="artik">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="artik">
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins in either IN or OUT direction. </p>
+    <p>To set a pin as output, send these properties in the <code>msg.payload</code>: 
+      <ul>
+        <li><code>pin</code>: pin number </li>
+        <li><code>value</code>: 0 for off, 1 for on</li>
+        <li><code>direction</code>: 'out'</li>
+      </ul>  
+    </p>
+    <p>To set a pin as input, send these properties in the <code>msg.payload</code>: 
+      <ul>
+        <li><code>pin</code>: pin number </li>
+        <li><code>direction</code>: 'in'</li>
+      </ul>  
+    </p>
+    <p>If set as input, the node will return the value of reading in <code>msg.payload.value</code></p>
+    <p><b>NOTE:</b> depends on the version of your Artik board, some GPIO pins might be active low. </p>
+</script>

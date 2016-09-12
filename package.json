@@ -1,0 +1,20 @@
+{
+  "name": "sts-node-red-contrib-artik",
+  "version": "0.0.1",
+  "description": "Node to control artik",
+  "node-red": {
+    "nodes": {
+      "artik": "artik.js"
+    }
+  },
+  "keywords": [
+    "node-red",
+    "fred"
+    ],
+  "dependencies": {},
+  "author": {
+    "name": "Michael Qiu",
+    "email": "mqiu@sensetecnic.com",
+    "url": "done know yet"
+  }
+}
