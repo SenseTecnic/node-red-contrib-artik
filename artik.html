@@ -10,6 +10,8 @@
             initialState: { value:""}
         },
         icon: "artik.png",
+        align: "right",
+        paletteLabel:"artik out",
         inputs:1,
         outputs:0,
         label: function() {
@@ -40,6 +42,7 @@
             debounce:{value:""}
         },
         icon: "artik.png",
+        paletteLabel:"artik in",
         inputs:1,
         outputs:1,
         label: function() {
@@ -70,6 +73,7 @@
             platform:{ valur:"", required:true}
         },
         icon: "artik.png",
+        paletteLabel:"artik adc",
         inputs:1,
         outputs:1,
         label: function() {
@@ -93,8 +97,10 @@
             initialPeriod: { value:""}
         },
         icon: "artik.png",
+        align: "right",
         inputs:1,
         outputs:0,
+        paletteLabel:"artik pwm",
         label: function() {
             return this.name||"artik pwm";
         },
