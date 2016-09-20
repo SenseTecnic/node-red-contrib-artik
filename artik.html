@@ -1,41 +1,308 @@
 <script type="text/javascript">
-    RED.nodes.registerType('artik',{
-        category: 'IoT',
+    RED.nodes.registerType('artik_out',{
+        category: 'Artik',
         color: '#FFFFFF',
         defaults: {
-            name: {value:""}
+            name: { value:""},
+            pin: { value:"",required:true,validate:RED.validators.number() },
+            state: { value:""},
+            enableInitialState: { value:""},
+            initialState: { value:""}
+        },
+        icon: "artik.png",
+        inputs:1,
+        outputs:0,
+        label: function() {
+            return this.name||"artik out";
+        },
+        oneditprepare: function(){
+            var setInitialState = function(){
+                if ($('#node-input-enableInitialState').is(":checked")) {
+                    $("#node-set-initialState").show();
+                } else {
+                    $("#node-set-initialState").hide();
+                }
+            };
+            $("#node-input-enableInitialState").change(function () { setInitialState(); });
+            setInitialState();
+        }
+    });
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('artik_in',{
+        category: 'Artik',
+        color: '#FFFFFF',
+        defaults: {
+            name: {value:""},
+            pin: {value:"",required:true,validate:RED.validators.number()},
+            enableInterrupt: {value:""},
+            edge:{value:""},
+            debounce:{value:""}
         },
         icon: "artik.png",
         inputs:1,
         outputs:1,
         label: function() {
-            return this.name||"artik";
+            return this.name||"artik in";
+        },
+        oneditprepare: function(){
+            var setInterrupt = function(){
+                if ($('#node-input-enableInterrupt').is(":checked")){
+                    $('#node-set-edge').show();
+                    $('#node-set-debounce').show();
+                } else {
+                    $('#node-set-edge').hide();
+                    $('#node-set-debounce').hide();
+                }
+            };
+            $('#node-input-enableInterrupt').change(function(){setInterrupt();});
+            setInterrupt();
+        }
+    });
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('artik_adc',{
+        category: 'Artik',
+        color: '#FFFFFF',
+        defaults: {
+            name: { value:""},
+            pin: { value:"",required:true,validate:RED.validators.number()},
+            platform:{ valur:"", required:true}
+        },
+        icon: "artik.png",
+        inputs:1,
+        outputs:1,
+        label: function() {
+            return this.name||"artik adc";
+        }
+    });
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('artik_pwm',{
+        category: 'Artik',
+        color: '#FFFFFF',
+        defaults: {
+            name: { value:""},
+            pin: { value:"",required:true,validate:RED.validators.number()},
+            dutyCycle: { value:"", required:true},
+            period: { value:"", required:true},
+            state: { value:"", required:true},
+            enableInitialState: { value:""},
+            initialState: { value:""},
+            initialDutyCycle: { value:""},
+            initialPeriod: { value:""}
+        },
+        icon: "artik.png",
+        inputs:1,
+        outputs:0,
+        label: function() {
+            return this.name||"artik pwm";
+        },
+        oneditprepare: function(){
+            var setInitialState = function(){
+                if ($('#node-input-enableInitialState').is(":checked")) {
+                    $("#node-set-initialState").show();
+                    $("#node-set-initialDutyCycle").show();
+                    $("#node-set-initialPeriod").show();
+                } else {
+                    $("#node-set-initialState").hide();
+                    $("#node-set-initialDutyCycle").hide();
+                    $("#node-set-initialPeriod").hide();
+                }
+            };
+            $("#node-input-enableInitialState").change(function () { setInitialState(); });
+            setInitialState();
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="artik">
+<script type="text/x-red" data-template-name="artik_out">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <input type="text" id="node-input-pin" placeholder="Pin number">
+    </div>
+    <div class="form-row" id="node-set-state">
+        <label for="node-input-state"><i class="icon-tag"></i>State</label>
+        <select id="node-input-state" style="width: 250px;">
+            <option value="0">Off</option>
+            <option value="1">On</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-set-tick">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-enableInitialState" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-enableInitialState" style="width: 70%;">Set initial state?</label>
+    </div>
+    <div class="form-row" id="node-set-initialState">
+        <label for="node-input-initialState">Initial State</label>
+        <select id="node-input-initialState" style="width: 250px;">
+            <option value="0">Off</option>
+            <option value="1">On</option>
+        </select>
+    </div>
 </script>
 
-<script type="text/x-red" data-help-name="artik">
-    <p>Artik GPIO node that helps controling the Artik board GPIO pins in either IN or OUT direction. </p>
-    <p>To set a pin as output, send these properties in the <code>msg.payload</code>: 
+<script type="text/x-red" data-template-name="artik_in">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <input type="text" id="node-input-pin" placeholder="Pin number">
+    </div>
+    <div class="form-row" id="node-set-tick">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-enableInterrupt" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-enableInterrupt" style="width: 70%;">Enable interrupt?</label>
+    </div>
+    <div class="form-row" id="node-set-edge">
+        <label for="node-input-edge"><i class="icon-tag"></i>Set edge</label>
+        <select id="node-input-edge" style="width: 250px;">
+            <option value="rising">Rising</option>
+            <option value="falling">Falling</option>
+            <option value="both">Both</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-set-debounce">
+        <label for="node-input-debounce"><i class="icon-tag"></i>Debounce delay</label>
+        <input type="text" id="node-input-debounce" placeholder="Delay duration">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-template-name="artik_adc">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <input type="text" id="node-input-pin" placeholder="Pin number">
+    </div>
+    <div class="form-row" id="node-set-platform">
+        <label for="node-input-platform">Platform</label>
+        <select id="node-input-platform" style="width: 250px;">
+            <option value="artik_5">Artik 5</option>
+            <option value="artik_10">Artik 10</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-template-name="artik_pwm">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <input type="text" id="node-input-pin" placeholder="Pin number">
+    </div>
+    <div class="form-row">
+        <label for="node-input-dutyCycle"><i class="icon-tag"></i>Duty cycle</label>
+        <input type="text" id="node-input-dutyCycle" placeholder="Duty cycle">
+    </div>
+    <div class="form-row">
+        <label for="node-input-period"><i class="icon-tag"></i>Period</label>
+        <input type="text" id="node-input-period" placeholder="Period">
+    </div>
+    <div class="form-row">
+        <label for="node-input-state"><i class="icon-tag"></i>State</label>
+        <select type="text" id="node-input-state" style="width: 250px;">
+            <option value = '1'>On</option>
+            <option value = '0'>Off</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-set-tick">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-enableInitialState" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-enableInitialState" style="width: 70%;">Set initial state?</label>
+    </div>
+    <div class="form-row" id="node-set-initialState">
+        <label for="node-input-initialState"><i class="icon-tag"></i>Initial State</label>
+        <select id="node-input-initialState" style="width: 250px;">
+            <option value="0">Off</option>
+            <option value="1">On</option>
+        </select>
+    </div>
+    <div class="form-row" id ="node-set-initialDutyCycle">
+        <label for="node-input-initialDutyCycle"><i class="icon-tag"></i>Duty cycle</label>
+        <input type="text" id="node-input-initialDutyCycle" placeholder="Initial duty cycle">
+    </div>
+    <div class="form-row" id ="node-set-initialPeriod">
+        <label for="node-input-initialPeriod"><i class="icon-tag"></i>Period</label>
+        <input type="text" id="node-input-initialPeriod" placeholder="Initial period">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="artik_out">
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins in OUT direction. </p>
+    <p>To set a pin as output, set these two properties in configuration tab or in the incoming <code>msg.payload</code>: 
       <ul>
         <li><code>pin</code>: pin number </li>
-        <li><code>value</code>: 0 for off, 1 for on</li>
-        <li><code>direction</code>: 'out'</li>
-      </ul>  
+        <li><code>state</code>: 0 for off, 1 for on, you can overwrite this property in the incoming <code>msg.payload.state</code></li>
+      </ul>
     </p>
-    <p>To set a pin as input, send these properties in the <code>msg.payload</code>: 
+    <p>If 'Set initial State' is checked:</p>
+    <p>
       <ul>
-        <li><code>pin</code>: pin number </li>
-        <li><code>direction</code>: 'in'</li>
-      </ul>  
+        <li>Initial State: sets the behaviour of the GPIO pin when deployed</li>
+      </ul>
     </p>
-    <p>If set as input, the node will return the value of reading in <code>msg.payload.value</code></p>
-    <p><b>NOTE:</b> depends on the version of your Artik board, some GPIO pins might be active low. </p>
+    <p><b>Note:</b> pin number would be the physical pin location. </p>
+</script>
+
+<script type="text/x-red" data-help-name="artik_in">
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins in IN direction. </p>
+    <p>To config the node: </p>
+    <p><code>pin</code> sets the pin number</p>
+    <p>If 'Enable interrupt' is checked:</p>
+    <p>
+      <ul>
+        <li>Set edge: sets edge for interrupt, values could be 'rising', 'falling' or 'both'. </li>
+        <li>Debounce delay: sets debouncing action in the software. </li>
+      </ul>
+    </p>
+    <p><b>Note:</b> pin number would be the physical pin location. </p>
+
+</script>
+
+<script type="text/x-red" data-help-name="artik_adc">
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins reading ADC.</p>
+     <p>To set a pin reading ADC, set these properties in configuration tab or in the incoming <code>msg.payload</code>: 
+      <ul>
+        <li><code>Pin</code>: pin number </li>
+        <li><code>Platform</code>: specify the platform of your Artik board.</li>
+      </ul>
+    </p>
+    <p>The return value is the ADC reading in mv. </p>
+    
+    <p><b>Note:</b> pin number would be the physical pin location. </p>   
+</script>
+
+<script type="text/x-red" data-help-name="artik_pwm">
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins setting PWM output.</p>
+    <p>To set a pin as output, set these properties in configuration tab or in the incoming <code>msg.payload</code>: 
+    <p>
+      <ul>
+        <li><code>Pin:</code> sets pin for PWM output, values could be either '0' or '1' referring to PWM0 or PWM1 on the Artik board.  </li>
+        <li><code>Duty cycle:</code> sets value of duty cycle for PWM output, values would be in ns. You can overwrite this property in the incoming <code>msg.payload.dutyCycle</code> to overwrite. </li>
+        <li><code>Period:</code> sets value of period for PWM output, values would be in ns. You can overwrite this property in the incoming <code>msg.payload.period</code> to overwrite. </li>
+        <li><code>State:</code> switch ON or OFF for PWM output, values could be either '0' or '1'. You can overwrite this property in the incoming <code>msg.payload.state</code> to overwrite. </li>
+      </ul>
+    </p>
+    <p>If 'Set initial State' is checked:</p>
+    <p>
+      <ul>
+        <li><code>Initial State:</code> switch ON or OFF for PWM output when deployed </li>
+        <li><code>Duty cycle:</code> sets value of duty cycle for PWM output when deployed, values would be in ns </li>
+        <li><code>Period:</code> sets value of period for PWM output when deployed, values would be in ns </li>
+      </ul>
+    </p>
+    
+    <p><b>Note:</b> pin number would be the physical pin location. </p>   
 </script>

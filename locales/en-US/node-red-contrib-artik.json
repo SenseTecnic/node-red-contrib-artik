@@ -1,7 +1,0 @@
-{
-  "node-red-contrib-artik":{
-    "error":{
-      "gpio-error": "An error occured when setting a GPIO pin"
-    }
-  }
-}

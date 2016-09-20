@@ -1,5 +1,5 @@
 {
-  "name": "sts-node-red-contrib-artik",
+  "name": "node-red-contrib-artik",
   "version": "0.0.1",
   "description": "Node to control artik",
   "node-red": {
@@ -11,7 +11,10 @@
     "node-red",
     "fred"
     ],
-  "dependencies": {},
+  "dependencies": {
+    "when": "3.7.5",
+    "onoff": "1.1.1"
+    },
   "author": {
     "name": "Michael Qiu",
     "email": "mqiu@sensetecnic.com",

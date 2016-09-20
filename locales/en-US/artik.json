@@ -1,0 +1,17 @@
+{
+  "artik":{
+    "errors":{
+      "writing-error": "An error occured when writing to a GPIO pin",
+      "reading-error": "An error occured when reading a GPIO pin",
+      "adc-error": "An error occured when reading ADC value",
+      "pwm-error": "An error occured when setting a pwm pin",
+      "pin-error": "The pin value is undefined",
+      "adc-error": "An error occured when reading ADC"
+    },
+    "status":{
+      "write_success": "Successfully set GPIO pin",
+      "adc_success": "Successfully read ADC",
+      "pwm_success": "Successfully set pwm"
+    }
+  }
+}
