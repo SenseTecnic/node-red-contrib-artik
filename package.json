@@ -25,5 +25,9 @@
     "name": "Michael Qiu",
     "email": "mqiu@sensetecnic.com",
     "url": "https://github.com/SenseTecnic/node-red-contrib-artik"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SenseTecnic/node-red-contrib-artik.git"
   }
 }
