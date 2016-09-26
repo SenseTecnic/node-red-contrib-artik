@@ -134,8 +134,8 @@
     <div class="form-row" id="node-set-state">
         <label for="node-input-state"><i class="icon-tag"></i>State</label>
         <select id="node-input-state" style="width: 250px;">
-            <option value="0">Off</option>
-            <option value="1">On</option>
+            <option value="1">High</option>
+            <option value="0">Low</option>
         </select>
     </div>
     <div class="form-row" id="node-set-tick">
@@ -146,8 +146,8 @@
     <div class="form-row" id="node-set-initialState">
         <label for="node-input-initialState">Initial State</label>
         <select id="node-input-initialState" style="width: 250px;">
-            <option value="0">Off</option>
-            <option value="1">On</option>
+            <option value="1">High</option>
+            <option value="0">Low</option>
         </select>
     </div>
 </script>
@@ -219,8 +219,8 @@
     <div class="form-row">
         <label for="node-input-state"><i class="icon-tag"></i>State</label>
         <select type="text" id="node-input-state" style="width: 250px;">
-            <option value = '1'>On</option>
-            <option value = '0'>Off</option>
+            <option value = '1'>High</option>
+            <option value = '0'>Low</option>
         </select>
     </div>
     <div class="form-row" id="node-set-tick">
@@ -231,8 +231,8 @@
     <div class="form-row" id="node-set-initialState">
         <label for="node-input-initialState"><i class="icon-tag"></i>Initial State</label>
         <select id="node-input-initialState" style="width: 250px;">
-            <option value="0">Off</option>
-            <option value="1">On</option>
+            <option value="1">High</option>
+            <option value="0">Low</option>
         </select>
     </div>
     <div class="form-row" id ="node-set-initialDutyCycle">
@@ -246,11 +246,11 @@
 </script>
 
 <script type="text/x-red" data-help-name="artik_out">
-    <p>Artik GPIO node that helps controling the Artik board GPIO pins in OUT direction. </p>
+    <p>Artik GPIO node that helps controling the Artik board GPIO pins in the <b>OUT</b> direction. </p>
     <p>To set a pin as output, set these two properties in configuration tab or in the incoming <code>msg.payload</code>: 
       <ul>
         <li><code>pin</code>: pin number </li>
-        <li><code>state</code>: 0 for off, 1 for on, you can overwrite this property in the incoming <code>msg.payload.state</code></li>
+        <li><code>state</code>: 0 for low, 1 for high, you can overwrite this property in the incoming <code>msg.payload.state</code></li>
       </ul>
     </p>
     <p>If 'Set initial State' is checked:</p>
@@ -270,10 +270,10 @@
     <p>
       <ul>
         <li>Set edge: sets edge for interrupt, values could be 'rising', 'falling' or 'both'. </li>
-        <li>Debounce delay: sets debouncing action in the software. </li>
+        <li>Debounce delay: sets debouncing delay in milliseconds. </li>
       </ul>
     </p>
-    <p><b>Note:</b> pin number would be the physical pin location. </p>
+    <p><b>Note:</b> pin number would be the physical pin location. When in interrupt mode, user can still use the inject node to trigger manual reading of the GPIO status.  </p>
 
 </script>
 
@@ -285,9 +285,9 @@
         <li><code>Platform</code>: specify the platform of your Artik board.</li>
       </ul>
     </p>
-    <p>The return value is the ADC reading in mv. </p>
+    <p>The return value is the ADC reading in mV. </p>
     
-    <p><b>Note:</b> pin number would be the physical pin location. </p>   
+    <p><b>Note:</b> pin number would be the physical pin location.</p>   
 </script>
 
 <script type="text/x-red" data-help-name="artik_pwm">
@@ -296,15 +296,15 @@
     <p>
       <ul>
         <li><code>Pin:</code> sets pin for PWM output, values could be either '0' or '1' referring to PWM0 or PWM1 on the Artik board.  </li>
-        <li><code>Duty cycle:</code> sets value of duty cycle for PWM output, values would be in ns. You can overwrite this property in the incoming <code>msg.payload.dutyCycle</code> to overwrite. </li>
-        <li><code>Period:</code> sets value of period for PWM output, values would be in ns. You can overwrite this property in the incoming <code>msg.payload.period</code> to overwrite. </li>
-        <li><code>State:</code> switch ON or OFF for PWM output, values could be either '0' or '1'. You can overwrite this property in the incoming <code>msg.payload.state</code> to overwrite. </li>
+        <li><code>Duty cycle:</code> sets value of duty cycle for PWM output, values would be in ns( e.g., 500000000 for 500 mS). You can overwrite this property in the incoming <code>msg.payload.dutyCycle</code> to overwrite. </li>
+        <li><code>Period:</code> sets value of period for PWM output, values would be in ns( e.g., 1000000000 for 1 S). You can overwrite this property in the incoming <code>msg.payload.period</code> to overwrite. </li>
+        <li><code>State:</code> switch HIGH or LOW for PWM output, values could be either '0' or '1' for LOW or HIGH. You can overwrite this property in the incoming <code>msg.payload.state</code> to overwrite. </li>
       </ul>
     </p>
     <p>If 'Set initial State' is checked:</p>
     <p>
       <ul>
-        <li><code>Initial State:</code> switch ON or OFF for PWM output when deployed </li>
+        <li><code>Initial State:</code> switch HIGH or LOW for PWM output when deployed </li>
         <li><code>Duty cycle:</code> sets value of duty cycle for PWM output when deployed, values would be in ns </li>
         <li><code>Period:</code> sets value of period for PWM output when deployed, values would be in ns </li>
       </ul>

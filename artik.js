@@ -67,7 +67,7 @@ module.exports = function(RED) {
       });
     })
   }
-  RED.nodes.registerType("artik_out",artikOutNode);
+  RED.nodes.registerType("artik_out", artikOutNode);
 
   function artikInNode(config){
     RED.nodes.createNode(this,config);
