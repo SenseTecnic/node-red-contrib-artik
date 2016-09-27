@@ -21,7 +21,7 @@ Usually this is `~/.node-red` .
 
 ### Artik Out Node
 
-Sets the value of a GPIO pin in the **out** direction. Pin number can be set in the config tab, and the state can be set in the config tab, or be overwritten by the incoming `msg.payload.state` with value 0 for LOW, and 1 for HIGH. 
+Sets the value of a GPIO pin in the **out** direction. Pin number can be set in the config tab, and the state can be set in the config tab, or be overwritten by the incoming `msg.payload.state` with value 0 for LOW, and 1 for HIGH. At the moment, this Artik Out node is set to always active high.
 
 For example, to over write the settings in the config tab, insert a function node in the flow above consists of the following:
 
@@ -103,7 +103,7 @@ Just like the Artik Out node, users can also set the initial output of the PWM p
 Here is an example flow with the PWM configs, and an function node to overwrite the settings of the PWM configs.
 
 ```
-```[{"id":"20da7925.b926b6","type":"artik_pwm","z":"39a9affc.48f19","name":"","pin":"0","dutyCycle":"50000000","period":"100000000","state":"0","enableInitialState":true,"initialState":"1","initialDutyCycle":"600000000","initialPeriod":"900000000","x":547,"y":470,"wires":[]},{"id":"7936730d.c546bc","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":178,"y":470,"wires":[["20da7925.b926b6"]]},{"id":"cac628d7.5d52f8","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":166,"y":531,"wires":[["a0f68053.1eaaf"]]},{"id":"a0f68053.1eaaf","type":"function","z":"39a9affc.48f19","name":"over write PWM pin","func":"msg.paylaod={\n    dutyCycle: 100000000,\n    period: 1000000000,\n    state: 1\n}\nreturn msg;","outputs":1,"noerr":0,"x":363,"y":532,"wires":[["20da7925.b926b6"]]}]
+[{"id":"20da7925.b926b6","type":"artik_pwm","z":"39a9affc.48f19","name":"","pin":"0","dutyCycle":"50000000","period":"100000000","state":"0","enableInitialState":true,"initialState":"1","initialDutyCycle":"600000000","initialPeriod":"900000000","x":547,"y":470,"wires":[]},{"id":"7936730d.c546bc","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":178,"y":470,"wires":[["20da7925.b926b6"]]},{"id":"cac628d7.5d52f8","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":166,"y":531,"wires":[["a0f68053.1eaaf"]]},{"id":"a0f68053.1eaaf","type":"function","z":"39a9affc.48f19","name":"over write PWM pin","func":"msg.paylaod={\n    dutyCycle: 100000000,\n    period: 1000000000,\n    state: 1\n}\nreturn msg;","outputs":1,"noerr":0,"x":363,"y":532,"wires":[["20da7925.b926b6"]]}]
 ```
 
 

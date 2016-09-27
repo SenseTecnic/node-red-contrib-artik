@@ -20,6 +20,8 @@ module.exports = function(RED) {
       return nodefn.call(fs.writeFile, "/sys/class/gpio/export", pin).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/direction", "out");
       }).then(function(){
+        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/active_low", "0");
+      }).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/value", state);
       }).then(function(){
         node.log(RED._("artik.status.write_success"));
@@ -59,6 +61,8 @@ module.exports = function(RED) {
 
     this.on('close', function(){
       nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ node.pin +"/value", 0).then(function(){
+        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/active_low", "0");
+      }).then(function(){
         return nodefn.call(fs.stat, '/sys/class/gpio/gpio' + node.pin);
       }).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/gpio/unexport", node.pin);
@@ -177,7 +181,7 @@ module.exports = function(RED) {
     
     function setPWMOut(pin, state, dutycycle, period){
       return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/export", pin).then(function(){
-        return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/pwm"+pin+"/period", period);
+        return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/pwm"+ pin +"/period", period);
       }).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/pwm"+ pin +"/duty_cycle", dutycycle);
       }).then(function(){
