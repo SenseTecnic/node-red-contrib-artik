@@ -92,7 +92,8 @@ module.exports = function(RED) {
           }
           var newMsg = {
             payload:{
-              state : value
+              state : value,
+              interrupt: true
             }
           }
           node.send(newMsg);
@@ -104,7 +105,8 @@ module.exports = function(RED) {
       var reading = gpio.readSync();
       var newMsg = {
         payload:{
-          state : reading
+          state : reading,
+          interrupt: false
         }
       }
       node.send(newMsg);
