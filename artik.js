@@ -157,9 +157,7 @@ module.exports = function(RED) {
         return raw_reading * VOLTAGE_CONVERSION;
       }).then(function(raw_reading){
         var newMsg = {
-          payload:{
-            value: raw_reading
-          }
+          payload:raw_reading
         };
         node.send(newMsg);
         node.log(RED._("artik.status.adc_success"));
