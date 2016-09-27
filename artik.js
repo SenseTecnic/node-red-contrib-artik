@@ -7,6 +7,8 @@ var Gpio = require('onoff').Gpio;
 //voltage conversion number from official Artik site:
 //https://developer.artik.io/documentation/developer-guide/gpio/kernel-gpio.html#adc-interface
 var VOLTAGE_CONVERSION = 0.439453125 *2;
+//Set the pins to always active high
+var ACTIVE_HIGH = "0";
 
 
 module.exports = function(RED) {
@@ -20,7 +22,7 @@ module.exports = function(RED) {
       return nodefn.call(fs.writeFile, "/sys/class/gpio/export", pin).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/direction", "out");
       }).then(function(){
-        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/active_low", "0");
+        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/active_low", ACTIVE_HIGH);
       }).then(function(){
         return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/value", state);
       }).then(function(){
