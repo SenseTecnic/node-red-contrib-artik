@@ -50,7 +50,7 @@ Here is an example flow similar to the example above but with the initial state 
 ### Artik In Node
 
 Reads the value of a GPIO pin in the **in** direction. Pin number can be set in the config tab. 
-When an the node is triggered( for example, an inject node), the node will read the value of the specified GPIO pin, and returns `msg.payload.value` indicating the status of the pin. 1 means a HIGH, and 0 means a LOW. Here is an example for reading on pin #22:
+When an the node is triggered( for example, an inject node), the node will read the value of the specified GPIO pin, and returns `msg.payload.value` indicating the status of the pin. 1 means a HIGH, and 0 means a LOW. `msg.payload.interrupt` would indicates if this msg was triggered by the interrupt action or not. Here is an example for reading on pin #22:
 
 ```
   [{"id":"761df489.fc35fc","type":"artik_in","z":"39a9affc.48f19","name":"","pin":"22","enableInterrupt":"","edge":"","debounce":"","x":304,"y":254,"wires":[["282c49fd.eb67c6"]]},{"id":"9e7259f3.e7f6c8","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":125,"y":246,"wires":[["761df489.fc35fc"]]},{"id":"282c49fd.eb67c6","type":"debug","z":"39a9affc.48f19","name":"","active":true,"console":"false","complete":"false","x":489,"y":251,"wires":[]}]
