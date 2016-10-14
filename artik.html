@@ -296,6 +296,7 @@
     <p>Artik GPIO node that helps controling the Artik board GPIO pins in the <b>OUT</b> direction. </p>
     <p>To set a pin as output, set these two properties in configuration tab or in the incoming <code>msg.payload</code>: 
       <ul>
+        <li><code>platform</code>: Artik module platform version </li>
         <li><code>pin</code>: pin number </li>
         <li><code>state</code>: 0 for low, 1 for high, you can overwrite this property in the incoming <code>msg.payload.state</code></li>
       </ul>
@@ -312,6 +313,7 @@
 <script type="text/x-red" data-help-name="artik_in">
     <p>Artik GPIO node that helps controling the Artik board GPIO pins in IN direction. </p>
     <p>To config the node: </p>
+    <p><code>platform</code> Artik module platform version </p>
     <p><code>pin</code> sets the pin number</p>
     <p>If 'Enable interrupt' is checked:</p>
     <p>

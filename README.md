@@ -23,7 +23,7 @@ Usually this is `~/.node-red` .
 
 ### Artik Out Node
 
-Sets the value of a GPIO pin in the **out** direction. Pin number can be set in the config tab, and the state can be set in the config tab, or be overwritten by the incoming `msg.payload.state` with value 0 for LOW, and 1 for HIGH. At the moment, this Artik Out node is set to always active high.
+Sets the value of a GPIO pin in the **out** direction. Pin number and platform version can be set in the config tab, and the state can be set in the config tab, or be overwritten by the incoming `msg.payload.state` with value 0 for LOW, and 1 for HIGH. At the moment, this Artik Out node is set to always active high.
 
 For example, to over write the settings in the config tab, insert a function node in the flow above consists of the following:
 
@@ -34,11 +34,11 @@ For example, to over write the settings in the config tab, insert a function nod
   return msg;
 ```
 
-Here is an example flow that has the node configured to turn pin #22 HIGH, and there is also an incoming `msg.payload` that turns the pin LOW.
+Here is an example flow that has the node configured to turn pin #13 on Artik 10 HIGH, and there is also an incoming `msg.payload` that turns the pin LOW.
 
 
 ```
-  [{"id":"76c87d85.944174","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":158,"y":59,"wires":[["5056aee8.65d47"]]},{"id":"5056aee8.65d47","type":"artik_out","z":"39a9affc.48f19","name":"","pin":"22","state":"1","enableInitialState":"","initialState":"","x":380,"y":67,"wires":[]},{"id":"37323dd0.806d82","type":"function","z":"39a9affc.48f19","name":"off","func":"var newMsg = {\n    payload:{\n        state:0\n    }\n}\nreturn newMsg;","outputs":1,"noerr":0,"x":284,"y":145,"wires":[["5056aee8.65d47"]]},{"id":"f3f9278e.aa6c28","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":142,"y":146,"wires":[["37323dd0.806d82"]]}]  
+  [{"id":"2d11caeb.2fcf56","type":"inject","z":"5e22ab64.dd8dd4","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":163,"y":80,"wires":[["fdd95c75.d797b"]]},{"id":"fdd95c75.d797b","type":"artik_out","z":"5e22ab64.dd8dd4","name":"","pin":"pin13","platform":"10","state":"1","enableInitialState":"","initialState":"","x":385,"y":88,"wires":[]},{"id":"7e274296.1f0dfc","type":"function","z":"5e22ab64.dd8dd4","name":"off","func":"var newMsg = {\n    payload:{\n        state:0\n    }\n}\nreturn newMsg;","outputs":1,"noerr":0,"x":289,"y":166,"wires":[["fdd95c75.d797b"]]},{"id":"8411fbe4.bfbcf8","type":"inject","z":"5e22ab64.dd8dd4","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":147,"y":167,"wires":[["7e274296.1f0dfc"]]}]
 ```
 
 User can also set the **Initial State** of a GPIO pin when flows are deployed. Simply check **Set initial state?** in the config tab, the node will prompt the user for the initial state.
@@ -46,16 +46,16 @@ User can also set the **Initial State** of a GPIO pin when flows are deployed. S
 Here is an example flow similar to the example above but with the initial state setting configured to HIGH.
 
 ```
-  [{"id":"76c87d85.944174","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":158,"y":59,"wires":[["5056aee8.65d47"]]},{"id":"5056aee8.65d47","type":"artik_out","z":"39a9affc.48f19","name":"","pin":"22","state":"1","enableInitialState":true,"initialState":"1","x":380,"y":67,"wires":[]},{"id":"37323dd0.806d82","type":"function","z":"39a9affc.48f19","name":"off","func":"var newMsg = {\n    payload:{\n        state:0\n    }\n}\nreturn newMsg;","outputs":1,"noerr":0,"x":284,"y":145,"wires":[["5056aee8.65d47"]]},{"id":"f3f9278e.aa6c28","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":142,"y":146,"wires":[["37323dd0.806d82"]]}]
+  [{"id":"c3f864ff.9065b8","type":"inject","z":"c6f9147c.f77198","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":156,"y":100,"wires":[["81a158e5.69eea8"]]},{"id":"81a158e5.69eea8","type":"artik_out","z":"c6f9147c.f77198","name":"","pin":"pin13","platform":"10","state":"1","enableInitialState":true,"initialState":"1","x":378,"y":108,"wires":[]},{"id":"b910700b.0b3df","type":"function","z":"c6f9147c.f77198","name":"off","func":"var newMsg = {\n    payload:{\n        state:0\n    }\n}\nreturn newMsg;","outputs":1,"noerr":0,"x":282,"y":186,"wires":[["81a158e5.69eea8"]]},{"id":"4ac95129.05282","type":"inject","z":"c6f9147c.f77198","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":140,"y":187,"wires":[["b910700b.0b3df"]]}]
 ```
 
 ### Artik In Node
 
 Reads the value of a GPIO pin in the **in** direction. Pin number can be set in the config tab. 
-When an the node is triggered( for example, an inject node), the node will read the value of the specified GPIO pin, and returns `msg.payload.value` indicating the status of the pin. 1 means a HIGH, and 0 means a LOW. `msg.payload.interrupt` would indicates if this msg was triggered by the interrupt action or not. Here is an example for reading on pin #22:
+When an the node is triggered( for example, an inject node), the node will read the value of the specified GPIO pin, and returns `msg.payload.value` indicating the status of the pin. 1 means a HIGH, and 0 means a LOW. `msg.payload.interrupt` would indicates if this msg was triggered by the interrupt action or not. Here is an example for reading on pin #13 on Artik 10:
 
 ```
-  [{"id":"761df489.fc35fc","type":"artik_in","z":"39a9affc.48f19","name":"","pin":"22","enableInterrupt":"","edge":"","debounce":"","x":304,"y":254,"wires":[["282c49fd.eb67c6"]]},{"id":"9e7259f3.e7f6c8","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":125,"y":246,"wires":[["761df489.fc35fc"]]},{"id":"282c49fd.eb67c6","type":"debug","z":"39a9affc.48f19","name":"","active":true,"console":"false","complete":"false","x":489,"y":251,"wires":[]}]
+  [{"id":"dfa80a.abb887f8","type":"artik_in","z":"335aeac4.e996d6","name":"","pin":"pin13","platform":"10","enableInterrupt":"","edge":"","debounce":"","x":291,"y":98,"wires":[["873367d1.aa69b8"]]},{"id":"abfd103d.d8a6a","type":"inject","z":"335aeac4.e996d6","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":112,"y":90,"wires":[["dfa80a.abb887f8"]]},{"id":"873367d1.aa69b8","type":"debug","z":"335aeac4.e996d6","name":"","active":true,"console":"false","complete":"false","x":476,"y":95,"wires":[]}]
 ```
 
 This Artik In Node can also read interrupt from a GPIO pin. By checking **Enable interrupt?**, the config tab will prompt the user for the edge to detect, and the debounce delay.
@@ -73,7 +73,7 @@ Reads the value of an ADC pin and shows the value in mV. Please refer to [Artik 
 In the config tab, you can set the pin number of the ADC pin on your board( either 0 or 1), and also the select the platform of the board you are using. When the node is triggered( for example, an inject node), the node will read the ADC value on the specified pin and return the value in mV. Here is an example flow.
 
 ```
-  [{"id":"8a5ad3c6.cf3ad","type":"artik_adc","z":"39a9affc.48f19","name":"","pin":"0","platform":"artik_10","x":314,"y":369,"wires":[["64df6204.e24c4c"]]},{"id":"ed93cee8.222be","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":128,"y":364,"wires":[["8a5ad3c6.cf3ad"]]},{"id":"64df6204.e24c4c","type":"debug","z":"39a9affc.48f19","name":"","active":true,"console":"false","complete":"false","x":484,"y":360,"wires":[]}]
+  [{"id":"4fa6be54.b8857","type":"artik_adc","z":"1d85c180.d3d9af","name":"","pin":"0","platform":"artik_10","x":301,"y":99,"wires":[["38bca321.2268bc"]]},{"id":"1861425e.36325e","type":"inject","z":"1d85c180.d3d9af","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":115,"y":94,"wires":[["4fa6be54.b8857"]]},{"id":"38bca321.2268bc","type":"debug","z":"1d85c180.d3d9af","name":"","active":true,"console":"false","complete":"false","x":471,"y":90,"wires":[]}]
 ```
 
 ### Artik PWM Node
@@ -105,7 +105,7 @@ Just like the Artik Out node, users can also set the initial output of the PWM p
 Here is an example flow with the PWM configs, and an function node to overwrite the settings of the PWM configs.
 
 ```
-[{"id":"20da7925.b926b6","type":"artik_pwm","z":"39a9affc.48f19","name":"","pin":"0","dutyCycle":"50000000","period":"100000000","state":"0","enableInitialState":true,"initialState":"1","initialDutyCycle":"600000000","initialPeriod":"900000000","x":547,"y":470,"wires":[]},{"id":"7936730d.c546bc","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":178,"y":470,"wires":[["20da7925.b926b6"]]},{"id":"cac628d7.5d52f8","type":"inject","z":"39a9affc.48f19","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":166,"y":531,"wires":[["a0f68053.1eaaf"]]},{"id":"a0f68053.1eaaf","type":"function","z":"39a9affc.48f19","name":"over write PWM pin","func":"msg.paylaod={\n    dutyCycle: 100000000,\n    period: 1000000000,\n    state: 1\n}\nreturn msg;","outputs":1,"noerr":0,"x":363,"y":532,"wires":[["20da7925.b926b6"]]}]
+[{"id":"1662b3e3.2d1e2c","type":"artik_pwm","z":"53870a7f.17e8f4","name":"","pin":"0","dutyCycle":"50000000","period":"100000000","state":"0","enableInitialState":true,"initialState":"1","initialDutyCycle":"600000000","initialPeriod":"900000000","x":505,"y":85,"wires":[]},{"id":"9ac3f57e.97a1e8","type":"inject","z":"53870a7f.17e8f4","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":136,"y":85,"wires":[["1662b3e3.2d1e2c"]]},{"id":"9311de67.a9b02","type":"inject","z":"53870a7f.17e8f4","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":124,"y":146,"wires":[["baa6d984.9be328"]]},{"id":"baa6d984.9be328","type":"function","z":"53870a7f.17e8f4","name":"over write PWM pin","func":"msg.paylaod={\n    dutyCycle: 100000000,\n    period: 1000000000,\n    state: 1\n}\nreturn msg;","outputs":1,"noerr":0,"x":321,"y":147,"wires":[["1662b3e3.2d1e2c"]]}]
 ```
 
 
