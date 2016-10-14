@@ -4,7 +4,8 @@
         color: '#FFFFFF',
         defaults: {
             name: { value:""},
-            pin: { value:"",required:true,validate:RED.validators.number() },
+            pin: { value:"",required:true},
+            platform:{value:"", required:true},
             state: { value:""},
             enableInitialState: { value:""},
             initialState: { value:""}
@@ -27,6 +28,7 @@
             };
             $("#node-input-enableInitialState").change(function () { setInitialState(); });
             setInitialState();
+
         }
     });
 </script>
@@ -36,7 +38,8 @@
         color: '#FFFFFF',
         defaults: {
             name: {value:""},
-            pin: {value:"",required:true,validate:RED.validators.number()},
+            pin: { value:"",required:true},
+            platform:{value:"", required:true},
             enableInterrupt: {value:""},
             edge:{value:""},
             debounce:{value:""}
@@ -60,6 +63,7 @@
             };
             $('#node-input-enableInterrupt').change(function(){setInterrupt();});
             setInterrupt();
+
         }
     });
 </script>
@@ -128,9 +132,28 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <input type="text" id="node-input-pin" placeholder="Pin number">
+        <label for="node-input-platform"><i class="icon-tag"></i>Platform</label>
+        <select type="text" id="node-input-platform" style="width: 70%;">
+            <option value="5">Artik 5</option>
+            <option value="10">Artik 10</option>
+        </select>
     </div>
+    <div class="form-row" id="node-select-artik5">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <select type="text" id="node-input-pin" style="width: 70%;">
+            <option value="pin2" data-i18n="artik.pins.gpio.pin2"></option>
+            <option value="pin3" data-i18n="artik.pins.gpio.pin3"></option>
+            <option value="pin4" data-i18n="artik.pins.gpio.pin4"></option>
+            <option value="pin7" data-i18n="artik.pins.gpio.pin7"></option>
+            <option value="pin8" data-i18n="artik.pins.gpio.pin8"></option>
+            <option value="pin9" data-i18n="artik.pins.gpio.pin9"></option>
+            <option value="pin10" data-i18n="artik.pins.gpio.pin10"></option>
+            <option value="pin11" data-i18n="artik.pins.gpio.pin11"></option>
+            <option value="pin12" data-i18n="artik.pins.gpio.pin12"></option>
+            <option value="pin13" data-i18n="artik.pins.gpio.pin13"></option>
+        </select>
+    </div>
+
     <div class="form-row" id="node-set-state">
         <label for="node-input-state"><i class="icon-tag"></i>State</label>
         <select id="node-input-state" style="width: 250px;">
@@ -158,8 +181,26 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
+        <label for="node-input-platform"><i class="icon-tag"></i>Platform</label>
+        <select type="text" id="node-input-platform" style="width: 70%;">
+            <option value="5">Artik 5</option>
+            <option value="10">Artik 10</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-select-artik5">
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <input type="text" id="node-input-pin" placeholder="Pin number">
+        <select type="text" id="node-input-pin" style="width: 70%;">
+            <option value="pin2" data-i18n="artik.pins.gpio.pin2"></option>
+            <option value="pin3" data-i18n="artik.pins.gpio.pin3"></option>
+            <option value="pin4" data-i18n="artik.pins.gpio.pin4"></option>
+            <option value="pin7" data-i18n="artik.pins.gpio.pin7"></option>
+            <option value="pin8" data-i18n="artik.pins.gpio.pin8"></option>
+            <option value="pin9" data-i18n="artik.pins.gpio.pin9"></option>
+            <option value="pin10" data-i18n="artik.pins.gpio.pin10"></option>
+            <option value="pin11" data-i18n="artik.pins.gpio.pin11"></option>
+            <option value="pin12" data-i18n="artik.pins.gpio.pin12"></option>
+            <option value="pin13" data-i18n="artik.pins.gpio.pin13"></option>
+        </select>
     </div>
     <div class="form-row" id="node-set-tick">
         <label>&nbsp;</label>
@@ -188,7 +229,10 @@
     </div>
     <div class="form-row">
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <input type="text" id="node-input-pin" placeholder="Pin number">
+        <select type="text" id="node-input-pin" style="width: 70%;">
+            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
+            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
+        </select>
     </div>
     <div class="form-row" id="node-set-platform">
         <label for="node-input-platform">Platform</label>
@@ -206,7 +250,10 @@
     </div>
     <div class="form-row">
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <input type="text" id="node-input-pin" placeholder="Pin number">
+        <select type="text" id="node-input-pin" style="width: 70%;">
+            <option value="0" data-i18n="artik.pins.pwm.pwm0"></option>
+            <option value="1" data-i18n="artik.pins.pwm.pwm1"></option>
+        </select>
     </div>
     <div class="form-row">
         <label for="node-input-dutyCycle"><i class="icon-tag"></i>Duty cycle</label>

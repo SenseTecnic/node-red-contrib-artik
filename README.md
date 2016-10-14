@@ -3,6 +3,8 @@
 
 These are [Node-RED](http://nodered.org) nodes that interface GPIO pins on [Artik boards](https://developer.artik.io/overview) specifically for the functions of writing output value to a pin, reading input value from a pin, setting a PWM pin and reading ADC value from an ADC pin. These nodes perform their functionalities based on the standard Linux **sysfs** function(Read more on [GPIO Control through Sysfs](https://developer.artik.io/documentation/developer-guide/gpio/kernel-gpio.html#gpio-control-through-sysfs)). Currently the nodes have been tested on both the Artik 10 and Artik 5 modules. For physical pin mapping location, please refer to [GPIO Mapping by Header](https://developer.artik.io/documentation/developer-guide/gpio/gpio-mapping.html). 
 
+Tutorials on the usage of these Artik nodes can also be found via [this link](http://developers.sensetecnic.com/article/tutorial-controlling-an-artik-board-using-fred-and-node-red/).
+
 
 ## Pre-requesites
 

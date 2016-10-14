@@ -3,6 +3,7 @@ var path = require('path');
 var nodefn = require('when/node');
 var when = require('when');
 var Gpio = require('onoff').Gpio;
+const artikGPIO = require('./artik-gpio-lookup');
 
 //voltage conversion number from official Artik site:
 //https://developer.artik.io/documentation/developer-guide/gpio/kernel-gpio.html#adc-interface
@@ -16,7 +17,15 @@ module.exports = function(RED) {
   function artikOutNode(config){
     RED.nodes.createNode(this,config);
     var node = this;
-    node.pin = config.pin;
+    node.platform = config.platform;
+
+    if(config.platform === '5'){
+      node.pin = artikGPIO.artik5GPIO[config.pin].value;
+    } else if (config.platform === '10'){
+      node.pin = artikGPIO.artik10GPIO[config.pin].value;
+    } else {
+      node.pin = '';
+    };
 
     function setGPIOOut(pin, state){
       return nodefn.call(fs.writeFile, "/sys/class/gpio/export", pin).then(function(){
@@ -46,9 +55,11 @@ module.exports = function(RED) {
     };
 
     this.on('input', function(msg){
+
       node.state = ( msg.payload.hasOwnProperty("state") && (msg.payload.state == '1' || msg.payload.state == '0')) ? msg.payload.state : config.state;
       if( !(typeof node.pin == 'undefined' || node.pin == '')){
-        
+        console.log("pin: "+node.pin);
+        console.log("state: "+node.state);
         nodefn.call(fs.stat, '/sys/class/gpio/gpio'+ node.pin).then(function(){
           return nodefn.call(fs.writeFile, "/sys/class/gpio/unexport", node.pin);
         }).then(function () {
@@ -63,7 +74,7 @@ module.exports = function(RED) {
 
     this.on('close', function(){
       nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ node.pin +"/value", 0).then(function(){
-        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ pin +"/active_low", "0");
+        return nodefn.call(fs.writeFile, "/sys/class/gpio/gpio"+ node.pin +"/active_low", "0");
       }).then(function(){
         return nodefn.call(fs.stat, '/sys/class/gpio/gpio' + node.pin);
       }).then(function(){
@@ -79,9 +90,18 @@ module.exports = function(RED) {
     RED.nodes.createNode(this,config);
     var node = this;
     var monitoringPin;
+    node.platform = config.platform;
+
+    if(config.platform === '5'){
+      node.pin = artikGPIO.artik5GPIO[config.pin].value;
+    } else if (config.platform === '10'){
+      node.pin = artikGPIO.artik10GPIO[config.pin].value;
+    } else {
+      node.pin = '';
+    };
 
     function init() {
-      monitoringPin = new Gpio(config.pin, 'in', config.edge, options);
+      monitoringPin = new Gpio(node.pin, 'in', config.edge, options);
       monitoringPin.unwatch();
 
       //Set up interrupt
@@ -116,9 +136,9 @@ module.exports = function(RED) {
       debounceTimeout: config.debounce || 0
     }
 
-    if(config.pin !== ''){
-      nodefn.call(fs.stat, '/sys/class/gpio/gpio'+ config.pin).then(function(){
-        return nodefn.call(fs.writeFile, "/sys/class/gpio/unexport", config.pin);
+    if(node.pin !== ''){
+      nodefn.call(fs.stat, '/sys/class/gpio/gpio'+ node.pin).then(function(){
+        return nodefn.call(fs.writeFile, "/sys/class/gpio/unexport", node.pin);
       }).then(function () {
         init();
       }).otherwise(function(){
@@ -127,7 +147,8 @@ module.exports = function(RED) {
     }
 
     this.on('input', function(msg){
-      if( !(typeof config.pin == 'undefined' || config.pin == '')){
+      console.log("pin: "+node.pin);
+      if( !(typeof node.pin == 'undefined' || node.pin == '')){
         readIn(monitoringPin);
       } else {
         node.error(RED._("artik.errors.pin-error"));
@@ -167,6 +188,7 @@ module.exports = function(RED) {
     }
 
     this.on('input', function(msg){
+      console.log("pin: "+node.pin);
       if( !(typeof node.pin == 'undefined' || node.pin == '')){
         readADC(node.pin, config.platform);
       } else {
@@ -198,16 +220,17 @@ module.exports = function(RED) {
     };
 
     if (config.enableInitialState === true){    
-        nodefn.call(fs.stat, '/sys/class/pwm/pwmchip0/pwm' + config.pin).then(function(){
-          return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/unexport", config.pin);
+        nodefn.call(fs.stat, '/sys/class/pwm/pwmchip0/pwm' + node.pin).then(function(){
+          return nodefn.call(fs.writeFile, "/sys/class/pwm/pwmchip0/unexport", node.pin);
         }).then(function () {
-          setPWMOut(config.pin, config.initialState, config.initialDutyCycle, config.initialPeriod);
+          setPWMOut(node.pin, config.initialState, config.initialDutyCycle, config.initialPeriod);
         }).otherwise(function(){
-          setPWMOut(config.pin, config.initialState, config.initialDutyCycle, config.initialPeriod);
+          setPWMOut(node.pin, config.initialState, config.initialDutyCycle, config.initialPeriod);
         });
     };
 
     this.on('input', function(msg){
+      console.log("pin: "+node.pin);
       node.state = ( msg.payload.hasOwnProperty("state") && (msg.payload.state == '1' || msg.payload.state == '0')) ? msg.payload.state : config.state;
       node.dutyCycle = ( msg.payload.hasOwnProperty("dutyCycle")) ? msg.payload.dutyCycle : config.dutyCycle;
       node.period = ( msg.payload.hasOwnProperty("period")) ? msg.payload.period : config.period;
