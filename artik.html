@@ -73,8 +73,9 @@
         color: '#FFFFFF',
         defaults: {
             name: { value:""},
-            pin: { value:"",required:true,validate:RED.validators.number()},
-            platform:{ valur:"", required:true}
+            pinOnArtik5: { value:""},
+            pinOnArtik10: { value:""},
+            platform:{ value:"artik_5", required:true}
         },
         icon: "artik.png",
         paletteLabel:"artik adc",
@@ -82,6 +83,20 @@
         outputs:1,
         label: function() {
             return this.name||"artik adc";
+        },
+        oneditprepare: function(){
+            var setAdcPinMenu = function(){
+                if ($('#node-input-platform option:selected').val() == 'artik_5'){
+                    $('#node-set-pinOnArtik5').show();
+                    $('#node-set-pinOnArtik10').hide();
+                } else {
+                    $('#node-set-pinOnArtik10').show();
+                    $('#node-set-pinOnArtik5').hide();
+                }
+            };
+            $('#node-input-platform').change(function(){setAdcPinMenu();});
+            setAdcPinMenu();
+
         }
     });
 </script>
@@ -227,18 +242,30 @@
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
-    <div class="form-row">
-        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pin" style="width: 70%;">
-            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
-            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
-        </select>
-    </div>
     <div class="form-row" id="node-set-platform">
         <label for="node-input-platform">Platform</label>
         <select id="node-input-platform" style="width: 250px;">
             <option value="artik_5">Artik 5</option>
             <option value="artik_10">Artik 10</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-set-pinOnArtik5">
+        <label for="node-input-pinOnArtik5"><i class="icon-tag"></i>Pin</label>
+        <select type="text" id="node-input-pinOnArtik5" style="width: 70%;">
+            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
+            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
+        </select>
+    </div>
+    <div class="form-row" id="node-set-pinOnArtik10">
+        <label for="node-input-pinOnArtik10"><i class="icon-tag"></i>Pin</label>
+        <select type="text" id="node-input-pinOnArtik10" style="width: 70%;">
+            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
+            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
+            <option value="2" data-i18n="artik.pins.adc.adc2"></option>
+            <option value="5" data-i18n="artik.pins.adc.adc3"></option>
+            <option value="6" data-i18n="artik.pins.adc.adc4"></option>
+            <option value="7" data-i18n="artik.pins.adc.adc5"></option>
+
         </select>
     </div>
 </script>

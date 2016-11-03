@@ -167,7 +167,14 @@ module.exports = function(RED) {
   function artikADCNode(config){
     RED.nodes.createNode(this,config);
     var node = this;
-    node.pin = config.pin;
+    // node.pin = config.pin;
+    if(config.platform === 'artik_5'){
+      node.pin = config.pinOnArtik5;
+    } else if(config.platform === 'artik_10'){
+      node.pin = config.pinOnArtik10;
+    } else {
+      node.pin = '';
+    }
 
     function readADC(pin, platform){
 
@@ -230,7 +237,6 @@ module.exports = function(RED) {
     };
 
     this.on('input', function(msg){
-      console.log("pin: "+node.pin);
       node.state = ( msg.payload.hasOwnProperty("state") && (msg.payload.state == '1' || msg.payload.state == '0')) ? msg.payload.state : config.state;
       node.dutyCycle = ( msg.payload.hasOwnProperty("dutyCycle")) ? msg.payload.dutyCycle : config.dutyCycle;
       node.period = ( msg.payload.hasOwnProperty("period")) ? msg.payload.period : config.period;
