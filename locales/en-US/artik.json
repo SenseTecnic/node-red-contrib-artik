@@ -12,32 +12,6 @@
       "write_success": "Successfully set GPIO pin",
       "adc_success": "Successfully read ADC",
       "pwm_success": "Successfully set pwm"
-    },
-    "pins":{
-      "gpio":{
-        "pin2":"Pin 2",
-        "pin3":"Pin 3",
-        "pin4":"Pin 4",
-        "pin7":"Pin 7",
-        "pin8":"Pin 8",
-        "pin9":"Pin 9",
-        "pin10":"Pin 10",
-        "pin11":"Pin 11",
-        "pin12":"Pin 12",
-        "pin13":"Pin 13"
-      },
-      "pwm":{
-        "pwm0":"PWM 0",
-        "pwm1":"PWM 1"
-      },
-      "adc":{
-        "adc0":"ADC 0",
-        "adc1":"ADC 1",
-        "adc2":"ADC 2",
-        "adc3":"ADC 3",
-        "adc4":"ADC 4",
-        "adc5":"ADC 5"
-      }  
     }
   }
 }

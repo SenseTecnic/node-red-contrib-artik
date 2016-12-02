@@ -1,0 +1,280 @@
+{
+  "artik520" :{
+    "GPIO":{
+      "pin2":{
+        "label":"GPIO 2",
+        "mapping":"121"
+      },
+
+      "pin3":{
+        "label":"GPIO 3",
+        "mapping":"122"
+      },
+
+      "pin4":{
+        "label":"GPIO 4",
+        "mapping":"123"
+      },
+
+      "pin7":{
+        "label":"GPIO 7",
+        "mapping":"124"
+      },
+
+      "pin8":{
+        "label":"GPIO 8",
+        "mapping":"125"
+      },
+
+      "pin9":{
+        "label":"GPIO 9",
+        "mapping":"126"
+      },
+
+      "pin10":{
+        "label":"GPIO 10",
+        "mapping":"127"
+      },
+
+      "pin11":{
+        "label":"GPIO 11",
+        "mapping":"129"
+      },
+
+      "pin12":{
+        "label":"GPIO 12",
+        "mapping":"134"
+      },
+
+      "pin13":{
+        "label":"GPIO 13",
+        "mapping":"135"
+      }
+    },
+
+    "ADC":{
+      "pin0":{
+        "label":"ADC 0",
+        "mapping":"0"
+      },
+      "pin1":{
+        "label":"ADC 1",
+        "mapping":"1"
+      }
+    },
+
+    "PWM":{
+      "pin0":{
+        "label":"PWM 0",
+        "mapping":"0"
+      },
+      "pin1":{
+        "label":"PWM 1",
+        "mapping":"1"
+      }
+    }
+},
+
+  "artik710" : {
+    "GPIO":{
+      "pin0":{
+        "label":"GPIO 0",
+        "mapping":"128"
+      },
+
+      "pin1":{
+        "label":"GPIO 1",
+        "mapping":"129"
+      },
+
+      "pin2":{
+        "label":"GPIO 2",
+        "mapping":"130"
+      },
+
+      "pin3":{
+        "label":"GPIO 3",
+        "mapping":"46"
+      },
+
+      "pin4":{
+        "label":"GPIO 4",
+        "mapping":"14"
+      },
+
+      "pin5":{
+        "label":"GPIO 5",
+        "mapping":"41"
+      },
+
+      "pin6":{
+        "label":"GPIO 6",
+        "mapping":"25"
+      },
+
+      "pin7":{
+        "label":"GPIO 7",
+        "mapping":"0"
+      },
+
+      "pin8":{
+        "label":"GPIO 8",
+        "mapping":"26"
+      },
+
+      "pin9":{
+        "label":"GPIO 9",
+        "mapping":"27"
+      },
+
+      "SW403":{
+        "label":"SW403",
+        "mapping":"30"
+      },
+
+      "SW404":{
+        "label":"SW404",
+        "mapping":"32"
+      },
+
+      "RED LED":{
+        "label":"RED LED",
+        "mapping":"28"
+      },
+
+      "BLUE LED":{
+        "label":"BLUE LED",
+        "mapping":"38"
+      }
+    },
+
+    "ADC":{
+      "pin0":{
+        "label":"ADC 0",
+        "mapping":"0"
+      },
+      "pin1":{
+        "label":"ADC 1",
+        "mapping":"1"
+      },
+      "pin2":{
+        "label":"ADC 2",
+        "mapping":"2"
+      },
+      "pin3":{
+        "label":"ADC 3",
+        "mapping":"3"
+      },
+      "pin4":{
+        "label":"ADC 4",
+        "mapping":"4"
+      },
+      "pin5":{
+        "label":"ADC 5",
+        "mapping":"5"
+      }
+    },
+
+    "PWM":{
+      "pin0":{
+        "label":"PWM 0",
+        "mapping":"2"
+      }
+    }
+  },
+
+  "artik1020":{
+    "GPIO":{
+      "pin2":{
+        "label":"GPIO 2",
+        "mapping":"8"
+      },
+
+      "pin3":{
+        "label":"GPIO 3",
+        "mapping":"9"
+      },
+
+      "pin4":{
+        "label":"GPIO 4",
+        "mapping":"10"
+      },
+
+      "pin7":{
+        "label":"GPIO 7",
+        "mapping":"11"
+      },
+
+      "pin8":{
+        "label":"GPIO 8",
+        "mapping":"12"
+      },
+
+      "pin9":{
+        "label":"GPIO 9",
+        "mapping":"13"
+      },
+
+      "pin10":{
+        "label":"GPIO 10",
+        "mapping":"14"
+      },
+
+      "pin11":{
+        "label":"GPIO 11",
+        "mapping":"16"
+      },
+
+      "pin12":{
+        "label":"GPIO 12",
+        "mapping":"21"
+      },
+
+      "pin13":{
+        "label":"GPIO 13",
+        "mapping":"22"
+      }
+    },
+
+    "ADC":{
+      "pin0":{
+        "label":"ADC 0",
+        "mapping":"0"
+      },
+      "pin1":{
+        "label":"ADC 1",
+        "mapping":"1"
+      },
+      "pin2":{
+        "label":"ADC 2",
+        "mapping":"2"
+      },
+      "pin3":{
+        "label":"ADC 3",
+        "mapping":"5"
+      },
+      "pin4":{
+        "label":"ADC 4",
+        "mapping":"6"
+      },
+      "pin5":{
+        "label":"ADC 5",
+        "mapping":"7"
+      }
+    },
+
+    "PWM":{
+      "pin0":{
+        "label":"PWM 0",
+        "mapping":"0"
+      },
+      "pin1":{
+        "label":"PWM 1",
+        "mapping":"1"
+      }
+    }
+  }
+
+}
+
+

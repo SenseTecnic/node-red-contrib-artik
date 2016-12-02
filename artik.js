@@ -3,14 +3,18 @@ var path = require('path');
 var nodefn = require('when/node');
 var when = require('when');
 var Gpio = require('onoff').Gpio;
-const artikGPIO = require('./artik-gpio-lookup');
+var artikPins = require('./artikPins.json');
 
 //voltage conversion number from official Artik site:
 //https://developer.artik.io/documentation/developer-guide/gpio/kernel-gpio.html#adc-interface
 var VOLTAGE_CONVERSION = 0.439453125 *2;
 //Set the pins to always active high
 var ACTIVE_HIGH = "0";
-
+var SYSFS_ADC_DEVICE_PATH = {
+  '5':'/sys/devices/126c0000.adc/iio:device0/',
+  '7':'/sys/devices/platform/c0000000.soc/c0053000.adc/iio:device0/',
+  '10':'/sys/devices/12d10000.adc/iio:device0/'
+};
 
 module.exports = function(RED) {
 
@@ -18,14 +22,7 @@ module.exports = function(RED) {
     RED.nodes.createNode(this,config);
     var node = this;
     node.platform = config.platform;
-
-    if(config.platform === '5'){
-      node.pin = artikGPIO.artik5GPIO[config.pin].value;
-    } else if (config.platform === '10'){
-      node.pin = artikGPIO.artik10GPIO[config.pin].value;
-    } else {
-      node.pin = '';
-    };
+    node.pin=config.pin;
 
     function setGPIOOut(pin, state){
       return nodefn.call(fs.writeFile, "/sys/class/gpio/export", pin).then(function(){
@@ -58,8 +55,6 @@ module.exports = function(RED) {
 
       node.state = ( msg.payload.hasOwnProperty("state") && (msg.payload.state == '1' || msg.payload.state == '0')) ? msg.payload.state : config.state;
       if( !(typeof node.pin == 'undefined' || node.pin == '')){
-        console.log("pin: "+node.pin);
-        console.log("state: "+node.state);
         nodefn.call(fs.stat, '/sys/class/gpio/gpio'+ node.pin).then(function(){
           return nodefn.call(fs.writeFile, "/sys/class/gpio/unexport", node.pin);
         }).then(function () {
@@ -91,14 +86,7 @@ module.exports = function(RED) {
     var node = this;
     var monitoringPin;
     node.platform = config.platform;
-
-    if(config.platform === '5'){
-      node.pin = artikGPIO.artik5GPIO[config.pin].value;
-    } else if (config.platform === '10'){
-      node.pin = artikGPIO.artik10GPIO[config.pin].value;
-    } else {
-      node.pin = '';
-    };
+    node.pin=config.pin;
 
     function init() {
       monitoringPin = new Gpio(node.pin, 'in', config.edge, options);
@@ -147,7 +135,6 @@ module.exports = function(RED) {
     }
 
     this.on('input', function(msg){
-      console.log("pin: "+node.pin);
       if( !(typeof node.pin == 'undefined' || node.pin == '')){
         readIn(monitoringPin);
       } else {
@@ -167,19 +154,13 @@ module.exports = function(RED) {
   function artikADCNode(config){
     RED.nodes.createNode(this,config);
     var node = this;
-    // node.pin = config.pin;
-    if(config.platform === 'artik_5'){
-      node.pin = config.pinOnArtik5;
-    } else if(config.platform === 'artik_10'){
-      node.pin = config.pinOnArtik10;
-    } else {
-      node.pin = '';
-    }
+    node.pin=config.pin;
+    node.platform=config.platform;
 
     function readADC(pin, platform){
 
       var raw_reading;
-      var platform_path = (platform === "artik_10")? "/sys/devices/12d10000.adc/iio:device0/" : "/sys/devices/126c0000.adc/iio:device0/" ;
+      var platform_path = SYSFS_ADC_DEVICE_PATH[node.platform] ;
       return nodefn.call(fs.readFile, platform_path + '/in_voltage' + pin + '_raw').then(function(data){
         raw_reading = data.toString('ascii', 0);
         return raw_reading * VOLTAGE_CONVERSION;
@@ -195,7 +176,6 @@ module.exports = function(RED) {
     }
 
     this.on('input', function(msg){
-      console.log("pin: "+node.pin);
       if( !(typeof node.pin == 'undefined' || node.pin == '')){
         readADC(node.pin, config.platform);
       } else {
@@ -266,5 +246,10 @@ module.exports = function(RED) {
   }
   RED.nodes.registerType("artik_pwm",artikPWMNode); 
 
+  RED.httpAdmin.get('/artikPins', function(req, res) {
+    res.send(JSON.stringify(artikPins));
+  });
+
 }
+
 

@@ -19,6 +19,9 @@
             return this.name||"artik out";
         },
         oneditprepare: function(){
+            var platformSelected = this.platform;
+            var pinSelected = this.pin;
+
             var setInitialState = function(){
                 if ($('#node-input-enableInitialState').is(":checked")) {
                     $("#node-set-initialState").show();
@@ -29,6 +32,46 @@
             $("#node-input-enableInitialState").change(function () { setInitialState(); });
             setInitialState();
 
+            var getPinList = function (platformVersion) {
+            console.log("triggered pin list updated"); 
+                $.get("/artikPins",function(data){
+                    var artikPins = $.parseJSON(data)
+                    var items = {};
+                    
+                    switch(platformVersion){
+                        case '5':
+                            items=artikPins.artik520.GPIO;
+                            break;
+                        case '7':
+                            items=artikPins.artik710.GPIO;
+                            break;
+                        case '10':
+                            items=artikPins.artik1020.GPIO;
+                            break;
+                        default:
+                            items={
+                                'notSelected':{
+                                    'label':'Please select your platform',
+                                    'mapping':""
+                                }
+                            };
+                            break;
+                    }
+                    $("#node-input-pin").empty();
+                    $.each(items, function(key,value){
+                        $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                    });  
+                    $('#node-input-pin').val(pinSelected);                  
+                }); 
+            };
+            $("#node-input-platform").change(function(){
+                var platformNow = $("#node-input-platform").val();
+                if(platformNow !== platformSelected){
+                    getPinList(platformNow);
+                } else {
+                    getPinList(platformSelected);
+                };
+            });
         }
     });
 </script>
@@ -52,6 +95,9 @@
             return this.name||"artik in";
         },
         oneditprepare: function(){
+            var platformSelected = this.platform;
+            var pinSelected = this.pin;
+
             var setInterrupt = function(){
                 if ($('#node-input-enableInterrupt').is(":checked")){
                     $('#node-set-edge').show();
@@ -64,6 +110,47 @@
             $('#node-input-enableInterrupt').change(function(){setInterrupt();});
             setInterrupt();
 
+            var getPinList = function (platformVersion) {
+            console.log("triggered pin list updated"); 
+                $.get("/artikPins",function(data){
+                    var artikPins = $.parseJSON(data)
+                    var items = {};
+                    
+                    switch(platformVersion){
+                        case '5':
+                            items=artikPins.artik520.GPIO;
+                            break;
+                        case '7':
+                            items=artikPins.artik710.GPIO;
+                            break;
+                        case '10':
+                            items=artikPins.artik1020.GPIO;
+                            break;
+                        default:
+                            items={
+                                'notSelected':{
+                                    'label':'Please select your platform',
+                                    'mapping':""
+                                }
+                            };
+                            break;
+                    }
+                    $("#node-input-pin").empty();
+                    $.each(items, function(key,value){
+                        $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                    });  
+                    $('#node-input-pin').val(pinSelected);                  
+                }); 
+            };
+            $("#node-input-platform").change(function(){
+                var platformNow = $("#node-input-platform").val();
+                if(platformNow !== platformSelected){
+                    getPinList(platformNow);
+                } else {
+                    getPinList(platformSelected);
+                };
+            });
+
         }
     });
 </script>
@@ -73,9 +160,8 @@
         color: '#FFFFFF',
         defaults: {
             name: { value:""},
-            pinOnArtik5: { value:""},
-            pinOnArtik10: { value:""},
-            platform:{ value:"artik_5", required:true}
+            pin: { value:"", required:true},
+            platform:{ value:"", required:true}
         },
         icon: "artik.png",
         paletteLabel:"artik adc",
@@ -85,18 +171,48 @@
             return this.name||"artik adc";
         },
         oneditprepare: function(){
-            var setAdcPinMenu = function(){
-                if ($('#node-input-platform option:selected').val() == 'artik_5'){
-                    $('#node-set-pinOnArtik5').show();
-                    $('#node-set-pinOnArtik10').hide();
-                } else {
-                    $('#node-set-pinOnArtik10').show();
-                    $('#node-set-pinOnArtik5').hide();
-                }
+            var platformSelected = this.platform;
+            var pinSelected = this.pin;
+            var getPinList = function (platformVersion) {
+            console.log("triggered pin list updated"); 
+                $.get("/artikPins",function(data){
+                    var artikPins = $.parseJSON(data)
+                    var items = {};
+                    
+                    switch(platformVersion){
+                        case '5':
+                            items=artikPins.artik520.ADC;
+                            break;
+                        case '7':
+                            items=artikPins.artik710.ADC;
+                            break;
+                        case '10':
+                            items=artikPins.artik1020.ADC;
+                            break;
+                        default:
+                            items={
+                                'notSelected':{
+                                    'label':'Please select your platform',
+                                    'mapping':""
+                                }
+                            };
+                            break;
+                    }
+                    $("#node-input-pin").empty();
+                    $.each(items, function(key,value){
+                        $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                    });  
+                    $('#node-input-pin').val(pinSelected);                  
+                }); 
             };
-            $('#node-input-platform').change(function(){setAdcPinMenu();});
-            setAdcPinMenu();
-
+            $("#node-input-platform").change(function(){
+                var platformNow = $("#node-input-platform").val();
+                if(platformNow !== platformSelected){
+                    getPinList(platformNow);
+                } else {
+                    getPinList(platformSelected);
+                };
+            });
         }
     });
 </script>
@@ -106,6 +222,7 @@
         color: '#FFFFFF',
         defaults: {
             name: { value:""},
+            platform:{ value:"", required:true},
             pin: { value:"",required:true,validate:RED.validators.number()},
             dutyCycle: { value:"", required:true},
             period: { value:"", required:true},
@@ -124,6 +241,9 @@
             return this.name||"artik pwm";
         },
         oneditprepare: function(){
+            var platformSelected = this.platform;
+            var pinSelected = this.pin;
+
             var setInitialState = function(){
                 if ($('#node-input-enableInitialState').is(":checked")) {
                     $("#node-set-initialState").show();
@@ -137,6 +257,47 @@
             };
             $("#node-input-enableInitialState").change(function () { setInitialState(); });
             setInitialState();
+
+            var getPinList = function (platformVersion) {
+            console.log("triggered pin list updated"); 
+                $.get("/artikPins",function(data){
+                    var artikPins = $.parseJSON(data)
+                    var items = {};
+                    
+                    switch(platformVersion){
+                        case '5':
+                            items=artikPins.artik520.PWM;
+                            break;
+                        case '7':
+                            items=artikPins.artik710.PWM;
+                            break;
+                        case '10':
+                            items=artikPins.artik1020.PWM;
+                            break;
+                        default:
+                            items={
+                                'notSelected':{
+                                    'label':'Please select your platform',
+                                    'mapping':""
+                                }
+                            };
+                            break;
+                    }
+                    $("#node-input-pin").empty();
+                    $.each(items, function(key,value){
+                        $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                    });  
+                    $('#node-input-pin').val(pinSelected);                  
+                }); 
+            };
+            $("#node-input-platform").change(function(){
+                var platformNow = $("#node-input-platform").val();
+                if(platformNow !== platformSelected){
+                    getPinList(platformNow);
+                } else {
+                    getPinList(platformSelected);
+                };
+            });
         }
     });
 </script>
@@ -149,24 +310,15 @@
     <div class="form-row">
         <label for="node-input-platform"><i class="icon-tag"></i>Platform</label>
         <select type="text" id="node-input-platform" style="width: 70%;">
-            <option value="5">Artik 5</option>
-            <option value="10">Artik 10</option>
+            <option value="5">Artik 520</option>
+            <option value="7">Artik 710</option>
+            <option value="10">Artik 1020</option>
         </select>
     </div>
-    <div class="form-row" id="node-select-artik5">
+    <div class="form-row" >
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pin" style="width: 70%;">
-            <option value="pin2" data-i18n="artik.pins.gpio.pin2"></option>
-            <option value="pin3" data-i18n="artik.pins.gpio.pin3"></option>
-            <option value="pin4" data-i18n="artik.pins.gpio.pin4"></option>
-            <option value="pin7" data-i18n="artik.pins.gpio.pin7"></option>
-            <option value="pin8" data-i18n="artik.pins.gpio.pin8"></option>
-            <option value="pin9" data-i18n="artik.pins.gpio.pin9"></option>
-            <option value="pin10" data-i18n="artik.pins.gpio.pin10"></option>
-            <option value="pin11" data-i18n="artik.pins.gpio.pin11"></option>
-            <option value="pin12" data-i18n="artik.pins.gpio.pin12"></option>
-            <option value="pin13" data-i18n="artik.pins.gpio.pin13"></option>
-        </select>
+        <select type="text" id="node-input-pin" style="width: 70%;"> </select>
+        
     </div>
 
     <div class="form-row" id="node-set-state">
@@ -198,24 +350,14 @@
     <div class="form-row">
         <label for="node-input-platform"><i class="icon-tag"></i>Platform</label>
         <select type="text" id="node-input-platform" style="width: 70%;">
-            <option value="5">Artik 5</option>
-            <option value="10">Artik 10</option>
+            <option value="5">Artik 520</option>
+            <option value="7">Artik 710</option>
+            <option value="10">Artik 1020</option>
         </select>
     </div>
-    <div class="form-row" id="node-select-artik5">
+    <div class="form-row">
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pin" style="width: 70%;">
-            <option value="pin2" data-i18n="artik.pins.gpio.pin2"></option>
-            <option value="pin3" data-i18n="artik.pins.gpio.pin3"></option>
-            <option value="pin4" data-i18n="artik.pins.gpio.pin4"></option>
-            <option value="pin7" data-i18n="artik.pins.gpio.pin7"></option>
-            <option value="pin8" data-i18n="artik.pins.gpio.pin8"></option>
-            <option value="pin9" data-i18n="artik.pins.gpio.pin9"></option>
-            <option value="pin10" data-i18n="artik.pins.gpio.pin10"></option>
-            <option value="pin11" data-i18n="artik.pins.gpio.pin11"></option>
-            <option value="pin12" data-i18n="artik.pins.gpio.pin12"></option>
-            <option value="pin13" data-i18n="artik.pins.gpio.pin13"></option>
-        </select>
+        <select type="text" id="node-input-pin" style="width: 70%;"></select>
     </div>
     <div class="form-row" id="node-set-tick">
         <label>&nbsp;</label>
@@ -245,28 +387,14 @@
     <div class="form-row" id="node-set-platform">
         <label for="node-input-platform">Platform</label>
         <select id="node-input-platform" style="width: 250px;">
-            <option value="artik_5">Artik 5</option>
-            <option value="artik_10">Artik 10</option>
+            <option value="5">Artik 520</option>
+            <option value="7">Artik 710</option>
+            <option value="10">Artik 1020</option>
         </select>
     </div>
-    <div class="form-row" id="node-set-pinOnArtik5">
-        <label for="node-input-pinOnArtik5"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pinOnArtik5" style="width: 70%;">
-            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
-            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
-        </select>
-    </div>
-    <div class="form-row" id="node-set-pinOnArtik10">
-        <label for="node-input-pinOnArtik10"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pinOnArtik10" style="width: 70%;">
-            <option value="0" data-i18n="artik.pins.adc.adc0"></option>
-            <option value="1" data-i18n="artik.pins.adc.adc1"></option>
-            <option value="2" data-i18n="artik.pins.adc.adc2"></option>
-            <option value="5" data-i18n="artik.pins.adc.adc3"></option>
-            <option value="6" data-i18n="artik.pins.adc.adc4"></option>
-            <option value="7" data-i18n="artik.pins.adc.adc5"></option>
-
-        </select>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
+        <select type="text" id="node-input-pin" style="width: 70%;"></select>
     </div>
 </script>
 
@@ -275,12 +403,17 @@
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row" id="node-set-platform">
+        <label for="node-input-platform">Platform</label>
+        <select id="node-input-platform" style="width: 250px;">
+            <option value="5">Artik 520</option>
+            <option value="7">Artik 710</option>
+            <option value="10">Artik 1020</option>
+        </select>
+    </div>
     <div class="form-row">
         <label for="node-input-pin"><i class="icon-tag"></i>Pin</label>
-        <select type="text" id="node-input-pin" style="width: 70%;">
-            <option value="0" data-i18n="artik.pins.pwm.pwm0"></option>
-            <option value="1" data-i18n="artik.pins.pwm.pwm1"></option>
-        </select>
+        <select type="text" id="node-input-pin" style="width: 70%;"></select>
     </div>
     <div class="form-row">
         <label for="node-input-dutyCycle"><i class="icon-tag"></i>Duty cycle</label>
