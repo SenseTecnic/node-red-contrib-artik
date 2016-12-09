@@ -137,7 +137,9 @@
                     }
                     $("#node-input-pin").empty();
                     $.each(items, function(key,value){
-                        $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                        if(!(value.label.includes("SW") || (value.label.includes("LED")))){
+                            $("#node-input-pin").append('<option value="'+value.mapping+'">'+value.label+'</option>')
+                        }
                     });  
                     $('#node-input-pin').val(pinSelected);                  
                 }); 
