@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-artik",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Node to control artik GPIO",
   "node-red": {
     "nodes": {
@@ -34,10 +34,5 @@
   "gitHead": "7aee6ba074049543450881c6672232e625062e79",
   "bugs": {
     "url": "https://github.com/SenseTecnic/node-red-contrib-artik/issues"
-  },
-  "homepage": "https://github.com/SenseTecnic/node-red-contrib-artik#readme",
-  "_id": "node-red-contrib-artik@0.0.5",
-  "scripts": {},
-  "_shasum": "3f4bc9467e89498509a365c7aeaa233da61072c4",
-  "_from": "node-red-contrib-artik@latest"
+  }
 }
