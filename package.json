@@ -1,7 +1,8 @@
 {
   "name": "node-red-contrib-artik",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Node to control artik GPIO",
+  "license": "Apache-2.0",
   "node-red": {
     "nodes": {
       "artik": "artik.js"
